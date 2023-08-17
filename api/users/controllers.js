@@ -1,6 +1,7 @@
 let jwt = require('jsonwebtoken');
 let helpers = require('../helpers');
 let stores = require('../../stores');
+const { User } = require('./models');
 
 // const { deleteFile } = require("../helpers");
 function put(req, res) {
@@ -31,7 +32,7 @@ async function register(req, res) {
 
     let db = stores.db;
 
-    let user = await db.collection('users').findOne({
+    let user = await User.findOne({
       email,
     });
 
@@ -39,7 +40,7 @@ async function register(req, res) {
       return res.status(400).json({ message: 'email alredy exist' });
     }
 
-    let result = await db.collection('users').insertOne({
+    user = new User({
       name,
       email,
       qualification,
@@ -60,13 +61,11 @@ async function register(req, res) {
       createdAt: new Date(),
     });
 
-    if (!result.acknowledged) {
-      return res.status(500).json({ message: 'database error' });
-    }
+    await user.save();
 
     return res.json({
       message: 'user added successfully',
-      _id: result.insertedId,
+      _id: user._id,
     });
   } catch (error) {
     console.log(error);
@@ -79,7 +78,7 @@ async function login(req, res) {
     let { email, password } = req.body;
     let db = stores.db;
 
-    let user = await db.collection('users').findOne({
+    let user = await User.findOne({
       email,
       password: helpers.createSaltedHash(password),
     });
