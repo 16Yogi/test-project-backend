@@ -18,13 +18,13 @@ function register(req, res, next) {
     branch,
   } = req.body;
 
-  if (!name) {
-    return res.status(404).json({ message: 'name is  required' });
-  }
+  // if (!name) {
+  //   return res.status(404).json({ message: 'name is  required' });
+  // }
 
-  if (typeof name !== 'string') {
-    return res.status(404).json({ message: 'name must be string' });
-  }
+  // if (typeof name !== 'string') {
+  //   return res.status(404).json({ message: 'name must be string' });
+  // }
 
   if (!email) {
     return res.status(404).json({ message: 'email is required' });

@@ -17,11 +17,8 @@ app.all('*', (req, res) => {
   return res.status(405).json({ message: 'route not found' });
 });
 
-app.listen(process.env.PORT, async () => {
-  console.log('Server started!');
-  let client = await mongoose.connect(process.env.MONGO_URL, {
-    dbName: process.env.DATABASE,
-  });
-  stores.db = client.connection;
-  console.log('Atlas connected!');
+mongoose.connect('mongodb+srv://Xmr-78:9669@cluster0.qvluro9.mongodb.net/?retryWrites=true&w=majority').then(()=>console.log("connected")).catch(()=>console.log("no connected"))
+app.listen(5000, async () => {
+  console.log('Server started! at http://localhost:5000');
+
 });
